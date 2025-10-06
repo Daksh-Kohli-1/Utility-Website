@@ -25,7 +25,7 @@ export default function ToolsGrid() {
       icon: QrCode,
       title: 'QR Code Generator',
       description: 'Create custom QR codes quickly.',
-      link: '#'
+      link: '/QRcode'
     },
     {
       icon: Code,

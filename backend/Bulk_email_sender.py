@@ -23,7 +23,7 @@ app.add_middleware(
 
 @app.post("/send-email")
 async def send_email(
-    Sender: str = Form(...),
+    Sender: str = Form(...), 
     Password: str = Form(...),
     Subject: str = Form(...),
     Message: str = Form(...),
