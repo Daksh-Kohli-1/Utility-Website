@@ -2,12 +2,21 @@ from fastapi import FastAPI, Form, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 
+#Email automater
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email import encoders
 
+#QR Code
+from pydantic import BaseModel
+import qrcode 
+import io
+import base64
+
+#pdf to text
+import PyPDF2
 app = FastAPI()
 
 app.add_middleware(
@@ -55,3 +64,42 @@ async def send_email(
             return {"error": f"Failed to send email to {rec}: {str(e)}"}
     return {"message": "Email sent successfully!"}
 
+@app.post("/generate-qr")
+async def generate_qr(URL: str = Form(...)):
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(URL)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill="black", back_color="white")
+    
+    # Convert image to base64
+    buffered = io.BytesIO()
+    img.save(buffered, format="PNG")
+    img_str = base64.b64encode(buffered.getvalue()).decode()
+    
+    return {
+        "message": "QR code generated successfully",
+        "qr_code": f"data:image/png;base64,{img_str}"
+    }
+
+@app.post("/extract-text")
+async def extract_text(pdf: UploadFile = File(...)):
+    try:
+        # Read the PDF file from the uploaded content
+        pdf_reader = PyPDF2.PdfReader(pdf.file)
+        text = ""
+
+        for page_num in range(len(pdf_reader.pages)):
+            page = pdf_reader.pages[page_num]
+            text += page.extract_text() + "\n"
+
+        # Return the extracted text to the frontend
+        return {"extracted_text": text.strip()}
+
+    except Exception as e:
+        return {"error": str(e)}

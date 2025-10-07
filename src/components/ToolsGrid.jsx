@@ -1,19 +1,19 @@
-import { FileJson, Hash, Palette, QrCode, Code, ImageIcon } from 'lucide-react';
+import { FileJson, Hash, Palette, QrCode, Code, ImageIcon, Mail, File } from 'lucide-react';
 import ToolCard from './ToolCard';
 
 export default function ToolsGrid() {
   const tools = [
     {
-      icon: FileJson,
+      icon: Mail,
       title: 'Bulk Email Sender',
       description: 'Mailing made easy.',
       link: '/BulkEmailSender'
     },
     {
-      icon: Hash,
-      title: 'Base64 Encoder',
-      description: 'Encode and decode Base64 strings easily.',
-      link: '#'
+      icon: File,
+      title: 'PDF Text Extractor',
+      description: 'Extract text from any pdf in a few clicks.',
+      link: '/PDFTextExtractor'
     },
     {
       icon: Palette,
