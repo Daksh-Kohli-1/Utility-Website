@@ -77,9 +77,6 @@ export default function Hero() {
         <p className="text-xl text-gray-300 mb-8">
           A collection of powerful and easy-to-use tools for developers, designers, and everyday users.
         </p>
-        <button className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-          Explore Tools
-        </button>
       </div>
     </div>
   );

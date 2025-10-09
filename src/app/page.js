@@ -56,7 +56,6 @@ export default function App() {
       <Navbar />
       <Hero />
       <ToolsGrid />
-      <FeaturedTool />
       <Footer />
     </div>
   );

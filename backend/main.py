@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Form, UploadFile, File
+from fastapi import FastAPI, Form, UploadFile, File, Response
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 
@@ -17,7 +17,20 @@ import base64
 
 #pdf to text
 import PyPDF2
+
+#For image compressor
+from PIL import Image
+import io
+
+
+#File converter
+from pdf2docx import Converter
+from docx2pdf import convert as docx_to_pdf
+import os
+import tempfile
+
 app = FastAPI()
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -103,3 +116,103 @@ async def extract_text(pdf: UploadFile = File(...)):
 
     except Exception as e:
         return {"error": str(e)}
+
+@app.post("/compress-image")
+async def compress_image(image: UploadFile = File(...)):
+    try:
+        # Read file into memory
+        contents = await image.read()
+        img = Image.open(io.BytesIO(contents))
+
+        # Remove metadata to save space
+        data = list(img.getdata())
+        img_no_exif = Image.new(img.mode, img.size)
+        img_no_exif.putdata(data)
+
+        # Detect original format
+        original_format = img.format or "JPEG"
+
+        # Prepare in-memory buffer
+        compressed_io = io.BytesIO()
+
+        # Apply optimized compression depending on format
+        if original_format.upper() in ["JPEG", "JPG"]:
+            img_no_exif.save(compressed_io, format="JPEG", optimize=True, quality=50)
+        elif original_format.upper() == "PNG":
+            img_no_exif.save(compressed_io, format="PNG", optimize=True)
+        else:
+            # Convert unsupported formats to JPEG
+            img_no_exif = img_no_exif.convert("RGB")
+            img_no_exif.save(compressed_io, format="JPEG", optimize=True, quality=50)
+
+        compressed_io.seek(0)
+
+        return Response(
+            content=compressed_io.getvalue(),
+            media_type=f"image/{original_format.lower()}",
+            headers={
+                "Content-Disposition": f"attachment; filename=compressed_{image.filename}"
+            },
+        )
+    except Exception as e:
+        return {"error": str(e)}
+
+
+
+@app.post("/pdf-to-word")
+async def pdf_to_word(file: UploadFile = File(...)):
+    try:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_pdf:
+            temp_pdf.write(await file.read())
+            temp_pdf_path = temp_pdf.name
+
+        output_path = temp_pdf_path.replace(".pdf", ".docx")
+
+        cv = Converter(temp_pdf_path)
+        cv.convert(output_path, start=0, end=None)
+        cv.close()
+
+        with open(output_path, "rb") as f:
+            converted_data = f.read()
+
+        os.remove(temp_pdf_path)
+        os.remove(output_path)
+
+        return Response(
+            content=converted_data,
+            media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            headers={"Content-Disposition": f"attachment; filename=converted_{file.filename}.docx"},
+        )
+
+    except Exception as e:
+        return {"error": str(e)}
+
+
+@app.post("/word-to-pdf")
+async def word_to_pdf(file: UploadFile = File(...)):
+    try:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".docx") as temp_docx:
+            temp_docx.write(await file.read())
+            temp_docx_path = temp_docx.name
+
+        output_path = temp_docx_path.replace(".docx", ".pdf")
+
+
+        docx_to_pdf(temp_docx_path, output_path)
+
+
+        with open(output_path, "rb") as f:
+            converted_data = f.read()
+
+        os.remove(temp_docx_path)
+        os.remove(output_path)
+
+        return Response(
+            content=converted_data,
+            media_type="application/pdf",
+            headers={"Content-Disposition": f"attachment; filename=converted_{file.filename}.pdf"},
+        )
+
+    except Exception as e:
+        return {"error": str(e)}
+

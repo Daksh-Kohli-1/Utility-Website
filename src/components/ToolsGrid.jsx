@@ -12,14 +12,14 @@ export default function ToolsGrid() {
     {
       icon: File,
       title: 'PDF Text Extractor',
-      description: 'Extract text from any pdf in a few clicks.',
+      description: 'Extract text from any pdf with just one click.',
       link: '/PDFTextExtractor'
     },
     {
       icon: Palette,
-      title: 'Color Converter',
-      description: 'Convert color codes between formats.',
-      link: '#'
+      title: 'Pdf to Word/Word to pdf',
+      description: 'Convert your pdf files to word and vica versa.',
+      link: '/FileConversion'
     },
     {
       icon: QrCode,
@@ -29,15 +29,15 @@ export default function ToolsGrid() {
     },
     {
       icon: Code,
-      title: 'Markdown Previewer',
-      description: 'Write and preview markdown in real-time.',
+      title: 'Web Scraper for job postings',
+      description: 'Made Job finding easier.',
       link: '#'
     },
     {
       icon: ImageIcon,
       title: 'Image Compressor',
       description: 'Reduce image file sizes.',
-      link: '#'
+      link: '/ImageCompressor'
     }
   ];
 
