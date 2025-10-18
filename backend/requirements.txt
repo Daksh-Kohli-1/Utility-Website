@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+smtplib  
+email   
+pydantic
+qrcode
+PyPDF2
+Pillow
+pdf2docx
+docx2pdf
+python-multipart

@@ -41,6 +41,10 @@ app.add_middleware(
 )
 
 
+@app.get("/")
+def root():
+    return {"message": "Backend deployed successfully!"}
+
 
 
 @app.post("/send-email")
