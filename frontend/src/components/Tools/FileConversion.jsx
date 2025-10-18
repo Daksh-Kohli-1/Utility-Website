@@ -50,8 +50,8 @@ export default function WordPdfConverter() {
     formData.append('conversionType', conversionType);
 
     const endpoint = conversionType === 'pdf-to-word' 
-      ? 'http://localhost:8000/pdf-to-word' 
-      : 'http://localhost:8000/word-to-pdf';
+      ? 'https://utility-website-one.vercel.app/pdf-to-word' 
+      : 'https://utility-website-one.vercel.app/word-to-pdf';
 
     try {
       const response = await fetch(endpoint, {

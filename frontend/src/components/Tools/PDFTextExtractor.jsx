@@ -49,7 +49,7 @@ export default function PDFTextExtractor() {
     const formdata = new FormData();
     formdata.append("pdf", pdfFile); // assuming pdfFile is a File object from input
 
-    const res = await fetch("http://localhost:8000/extract-text", {
+    const res = await fetch("https://utility-website-one.vercel.app/extract-text", {
       method: "POST",
       body: formdata,
     });

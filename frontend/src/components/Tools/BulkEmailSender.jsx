@@ -97,7 +97,7 @@ export default function BulkEmailSend() {
         });
       }, 1000);
 
-      const response = await fetch("http://localhost:8000/send-email", {
+      const response = await fetch("https://utility-website-one.vercel.app/send-email", {
         method: "POST",
         body: formData,
       });
