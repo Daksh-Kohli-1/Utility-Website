@@ -17,7 +17,7 @@ export default function QRGenerator() {
       const formdata = new FormData();
       formdata.append("URL", url);
 
-      const res = await fetch("https://utility-website-one.vercel.app/generate-qr", {
+      const res = await fetch("https://dktoolbox-production.up.railway.app/generate-qr", {
         method: "POST",
         body: formdata,
       });

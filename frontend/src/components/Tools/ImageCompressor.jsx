@@ -36,7 +36,7 @@ export default function ImageCompressor() {
     formData.append('image', selectedFile);
 
     try {
-      const response = await fetch('https://utility-website-one.vercel.app/compress-image', {
+      const response = await fetch('https://dktoolbox-production.up.railway.app/compress-image', {
         method: 'POST',
         body: formData,
       });

@@ -97,7 +97,7 @@ export default function BulkEmailSend() {
         });
       }, 1000);
 
-      const response = await fetch("https://utility-website-one.vercel.app/send-email", {
+      const response = await fetch("https://dktoolbox-production.up.railway.app/send-email", {
         method: "POST",
         body: formData,
       });

@@ -1,6 +1,5 @@
 fastapi
 uvicorn
-email   
 pydantic
 qrcode
 PyPDF2
