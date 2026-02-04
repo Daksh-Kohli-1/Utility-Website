@@ -48,10 +48,10 @@ export default function WordPdfConverter() {
     const formData = new FormData();
     formData.append('file', selectedFile);
     formData.append('conversionType', conversionType);
-
+    const localUrl = process.env.NEXT_PUBLIC_LOCAL_URL;
     const endpoint = conversionType === 'pdf-to-word' 
-      ? 'https://dktoolbox-production.up.railway.app/pdf-to-word' 
-      : 'https://dktoolbox-production.up.railway.app/word-to-pdf';
+      ? `${localUrl}/pdf-to-word`
+      : `${localUrl}/word-to-pdf`;
 
     try {
       const response = await fetch(endpoint, {

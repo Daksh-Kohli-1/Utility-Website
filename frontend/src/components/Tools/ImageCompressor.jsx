@@ -34,9 +34,9 @@ export default function ImageCompressor() {
 
     const formData = new FormData();
     formData.append('image', selectedFile);
-
+    const localUrl = process.env.NEXT_PUBLIC_LOCAL_URL;
     try {
-      const response = await fetch('https://dktoolbox-production.up.railway.app/compress-image', {
+      const response = await fetch(`${localUrl}/compress-image`, {
         method: 'POST',
         body: formData,
       });

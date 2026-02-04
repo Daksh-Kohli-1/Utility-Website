@@ -96,8 +96,11 @@ export default function BulkEmailSend() {
           return prev;
         });
       }, 1000);
+      const localUrl = process.env.NEXT_PUBLIC_LOCAL_URL;
+      // console.log(process.env.NEXT_PUBLIC_LOCAL_URL);
 
-      const response = await fetch("https://dktoolbox-production.up.railway.app/send-email", {
+
+      const response = await fetch(`${localUrl}/send-email`, {
         method: "POST",
         body: formData,
       });

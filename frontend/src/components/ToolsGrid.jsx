@@ -27,12 +27,12 @@ export default function ToolsGrid() {
       description: 'Create custom QR codes quickly.',
       link: '/QRcode'
     },
-    {
-      icon: Code,
-      title: 'Web Scraper for job postings',
-      description: 'Made Job finding easier.',
-      link: '#'
-    },
+    // {
+    //   icon: Code,
+    //   title: 'Web Scraper for job postings',
+    //   description: 'Made Job finding easier.',
+    //   link: '#'
+    // },
     {
       icon: ImageIcon,
       title: 'Image Compressor',

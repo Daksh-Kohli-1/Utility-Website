@@ -48,8 +48,8 @@ export default function PDFTextExtractor() {
   try {
     const formdata = new FormData();
     formdata.append("pdf", pdfFile); // assuming pdfFile is a File object from input
-
-    const res = await fetch("https://dktoolbox-production.up.railway.app/extract-text", {
+    const localUrl = process.env.NEXT_PUBLIC_LOCAL_URL;
+    const res = await fetch(`${localUrl}/extract-text`, {
       method: "POST",
       body: formdata,
     });

@@ -16,8 +16,8 @@ export default function QRGenerator() {
     try {
       const formdata = new FormData();
       formdata.append("URL", url);
-
-      const res = await fetch("https://dktoolbox-production.up.railway.app/generate-qr", {
+      const localUrl = process.env.NEXT_PUBLIC_LOCAL_URL;
+      const res = await fetch(`${localUrl}/generate-qr`, {
         method: "POST",
         body: formdata,
       });
